@@ -3,7 +3,8 @@ import {Router} from "./Router";
 import {BrowserRouter, Navigate} from "react-router-dom";
 
 export function RequireAuth({ children }) {
-    const user = null; // TODO Get user from local storage
+    // TODO Get user from local storage
+    const user = localStorage.getItem('token');
 
     if (user === null) {
         console.log('ici bg fabinax');

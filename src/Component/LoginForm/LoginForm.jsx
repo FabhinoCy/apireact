@@ -1,9 +1,11 @@
 // Genral imports
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
+import axios from 'axios';
 
 // Style imports
 import './LoginForm.css';
+import Input from "../Input/Input";
 
 const LoginForm = ({handleSubmit}) => {
 
@@ -34,6 +36,21 @@ const LoginForm = ({handleSubmit}) => {
 
     const handleSubmitForm = async(event) => {
         event.preventDefault();
+        console.log(credentials)
+        const data = {
+            username: credentials.login,
+            password: credentials.password
+        }
+        axios.post('http://localhost:8000/api/login_check', data)
+            .then((res) => {
+                console.log(res.data)
+                // set token in local storage
+                localStorage.setItem('token', res.data.token)
+            })
+            .catch((err) => {
+                console.log(err.response.data)
+                localStorage.setItem('token', null)
+            })
         await handleSubmit(credentials);
     };
     //TODO Add Credentials Inputs (With Input Component)
@@ -44,6 +61,25 @@ const LoginForm = ({handleSubmit}) => {
 
                 <div className='credentials-and-password-container'>
 
+                    <Input
+                        id='login'
+                        label='Login'
+                        value={credentials.login}
+                        type='text'
+                        required={true}
+                        placeholder='Login'
+                        handleChange={handleLoginChange}
+                    />
+
+                    <Input
+                        id='password'
+                        label='Password'
+                        value={credentials.password}
+                        type='password'
+                        required={true}
+                        placeholder='Password'
+                        handleChange={handlePasswordChange}
+                    />
                     <button
                         className='login-page-call-to-action'
                         type="submit"
