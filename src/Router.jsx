@@ -8,12 +8,10 @@ export const Router = () => {
     return (
         //TODO Make router with Home page and Login page
         <div>
-            <BrowserRouter>
-                <Routes>
-                    <Route index element={<Home/>}/>
-                    <Route element={<LoginPage/>} path="/login"/>
-                </Routes>
-            </BrowserRouter>
+            <Routes>
+                <Route index element={<Home/>}/>
+                <Route element={<LoginPage/>} path="/login"/>
+            </Routes>
         </div>
     )
 }

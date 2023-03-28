@@ -1,28 +1,25 @@
-import './App.css';
 import React from 'react';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Home from "./Page/Home/Home";
-import LoginPage from "./Page/Login/LoginPage";
 import {Router} from "./Router";
+import {BrowserRouter, Navigate} from "react-router-dom";
 
 export function RequireAuth({ children }) {
-    // Used to ensure the refreshToken is called once at a time
     const user = null; // TODO Get user from local storage
 
     if (user === null) {
-        console.log('ici bg fabinax')
-        //TODO Navigate to login page
+        console.log('ici bg fabinax');
+        return <Navigate to="/login" replace={true}/>;
     } else {
         return children;
     }
 }
 
 function App() {
-
-//Navigation dans requireAuth
-  return (
-      <Router/>
-  );
+    return (
+        <BrowserRouter>
+            <RequireAuth/>
+            <Router/>
+        </BrowserRouter>
+    );
 }
 
 export default App;
