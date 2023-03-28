@@ -46,10 +46,11 @@ const LoginForm = ({handleSubmit}) => {
                 console.log(res.data)
                 // set token in local storage
                 localStorage.setItem('token', res.data.token)
+                window.location.href = '/'
             })
             .catch((err) => {
                 console.log(err.response.data)
-                localStorage.setItem('token', null)
+                localStorage.removeItem('token')
             })
         await handleSubmit(credentials);
     };
