@@ -4,31 +4,26 @@ import {BrowserRouter, Navigate} from "react-router-dom";
 import axios from "axios";
 
 export function RequireAuth({ children }) {
-    const [user, setUser] = useState(null);
+    // TODO Get user from local storage
     const token = localStorage.getItem('token');
 
-    useEffect(() => {
-        if (token) {
-            axios
-                .get('http://localhost:8000/api/users/me', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                .then((res) => {
-                    setUser(res.data);
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                });
-        }
-    }, [token]);
-
-    if (!user) {
-        return <Navigate to="/login" replace={true} />;
+    if (token === null) {
+        return <Navigate to="/login" replace={true}/>;
+    } else {
+        axios.get('http://localhost:8000/api/users/me', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            }
+        })
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+                console.log('pas ok');
+            })
+        return children;
     }
-
-    return children;
 }
 
 function App() {

@@ -39,6 +39,7 @@ const LoginForm = ({handleSubmit}) => {
         }
         axios.post('http://localhost:8000/api/login_check', data)
             .then((res) => {
+                console.log('fabien')
                 console.log(res.data)
                 localStorage.setItem('token', res.data.token)
                 window.location.href = '/'
@@ -59,28 +60,28 @@ const LoginForm = ({handleSubmit}) => {
 
                     <Input
                         id='login'
-                        label='Login'
+                        label='Adresse mail'
                         value={credentials.login}
-                        type='text'
+                        type='mail'
                         required={true}
-                        placeholder='Login'
+                        placeholder='admin@admin.fr'
                         handleChange={handleLoginChange}
                     />
 
                     <Input
                         id='password'
-                        label='Password'
+                        label='Mot de passe'
                         value={credentials.password}
                         type='password'
                         required={true}
-                        placeholder='Password'
+                        placeholder='********'
                         handleChange={handlePasswordChange}
                     />
                     <button
                         className='login-page-call-to-action'
                         type="submit"
                     >
-                        Submit
+                        Se connecter
                     </button>
 
                 </div>
