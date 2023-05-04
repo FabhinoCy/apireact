@@ -1,0 +1,27 @@
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.logout {
+    width: 350px;
+    height: 50px;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 50px auto;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout:hover {
+    background-color: #ff0000;
+}
