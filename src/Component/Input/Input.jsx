@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
-
 import './Input.css';
 
 const Input = ({ id, label, value, type, required, placeholder, handleChange, onFocus }) => {

@@ -1,7 +1,6 @@
 import LoginForm from "../../Component/LoginForm/LoginForm";
 import {useState} from "react";
 
-
 const LoginPage = () => {
 
     const [ formSubmitting, setFormSubmitting ] = useState(false);
@@ -19,11 +18,9 @@ const LoginPage = () => {
 
     return(
         <div>
-
             <LoginForm
                 handleSubmit={handleSubmit}
             />
-
         </div>
     )
 }

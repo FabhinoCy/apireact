@@ -1,9 +1,5 @@
-// Genral imports
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import axios from 'axios';
-
-// Style imports
 import './LoginForm.css';
 import Input from "../Input/Input";
 
@@ -44,7 +40,6 @@ const LoginForm = ({handleSubmit}) => {
         axios.post('http://localhost:8000/api/login_check', data)
             .then((res) => {
                 console.log(res.data)
-                // set token in local storage
                 localStorage.setItem('token', res.data.token)
                 window.location.href = '/'
             })
