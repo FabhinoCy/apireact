@@ -17,6 +17,8 @@ export function RequireAuth({ children }) {
         })
             .then((res) => {
                 console.log(res.data);
+                // set user in local storage
+                localStorage.setItem('user', JSON.stringify(res.data));
             })
             .catch((err) => {
                 console.log(err.response.data);

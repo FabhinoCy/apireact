@@ -1,38 +1,72 @@
-import React, {useState, useEffect} from "react";
-import {Navigate} from "react-router-dom";
-import "./Home.css";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
+import "./Home.css";
 
-const Home = (props) => {
+const HomePage = () => {
+    const [characters, setCharacters] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    const [user, setUser] = useState('');
+    const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/users/me', {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            }
-        })
-            .then((res) => {
-                console.log(res.data.user.email);
-                setUser(res.data.user.email);
-            })
-    }, [])
+        getCharacters();
+    }, [page]);
+
+    const getCharacters = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8000/api/characters?page=${page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+            setCharacters((prevCharacters) => [
+                ...prevCharacters,
+                ...response.data["hydra:member"],
+            ]);
+            setTotalPages(response.data["hydra:totalItems"]);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const goToNextPage = () => {
+        setPage((prevPage) => prevPage + 1);
+    };
 
     const logout = () => {
         localStorage.clear();
         window.location.href = "/login";
     }
 
-    return(
+    return (
         <div>
             <h1>Home page</h1>
-            {
-                user ? <h3>Bonjour {user}</h3> : ''
-            }
+            <h3>Bonjour {user && user.user.email}</h3>
             <span className="logout" onClick={logout}>Se déconnecter</span>
+            <p>Liste des personnages Rick et Morty</p>
+            <InfiniteScroll
+                dataLength={characters.length}
+                next={goToNextPage}
+                hasMore={page < totalPages}
+                loader={<h4>Loading...</h4>}
+            >
+                <div className="row">
+                    {characters.map((character, index) => (
+                        <div className="col-3" key={index}>
+                            <p>{character.name}</p>
+                            <p>{character.status}</p>
+                            <img src={character.image} alt={character.name} />
+                        </div>
+                    ))}
+                </div>
+            </InfiniteScroll>
         </div>
-    )
-}
+    );
+};
 
-export default Home;
+export default HomePage;
