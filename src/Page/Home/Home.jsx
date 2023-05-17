@@ -46,9 +46,13 @@ const HomePage = () => {
     return (
         <div>
             <h1>Home page</h1>
-            <h3>Bonjour {user && user.user.email}</h3>
+            <h2>Bonjour {user && user.user.email}</h2>
             <span className="logout" onClick={logout}>Se déconnecter</span>
-            <p>Liste des personnages Rick et Morty</p>
+            {
+                characters.length > 0 ?
+                    <h3>Liste des personnages Rick et Morty</h3>
+                    : ''
+            }
             <InfiniteScroll
                 dataLength={characters.length}
                 next={goToNextPage}
@@ -57,10 +61,12 @@ const HomePage = () => {
             >
                 <div className="row">
                     {characters.map((character, index) => (
-                        <div className="col-3" key={index}>
-                            <p>{character.name}</p>
-                            <p>{character.status}</p>
+                        <div className="col-4" key={index}>
                             <img src={character.image} alt={character.name} />
+                            <div>
+                                <span className="nom">{character.name}</span>
+                                <span>{character.status}</span>
+                            </div>
                         </div>
                     ))}
                 </div>
