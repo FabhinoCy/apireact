@@ -64,8 +64,11 @@ const HomePage = () => {
                         <div className="col-4" key={index}>
                             <img src={character.image} alt={character.name} />
                             <div>
-                                <span className="nom">{character.name}</span>
-                                <span>{character.status}</span>
+                                <p className="nom">{character.name}</p>
+                                <div>
+                                    <p>{character.species}</p>
+                                    <p>{character.location.name}</p>
+                                </div>
                             </div>
                         </div>
                     ))}
