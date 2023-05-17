@@ -10,6 +10,9 @@ const LoginForm = ({handleSubmit}) => {
         password: ''
     });
 
+    const [loader, setLoader] = useState(false);
+    const [erreurForm, setErreurForm] = useState('');
+
     const handleChange = ({key, value}) => {
         setCredentials((prevState) => {
             return {...prevState, [key]: value};
@@ -33,18 +36,23 @@ const LoginForm = ({handleSubmit}) => {
     const handleSubmitForm = async(event) => {
         event.preventDefault();
         console.log(credentials)
+        setLoader(true);
+        setErreurForm('');
         const data = {
             username: credentials.login,
             password: credentials.password
         }
         axios.post('http://localhost:8000/api/login_check', data)
             .then((res) => {
+                setLoader(false);
                 console.log('fabien')
                 console.log(res.data)
                 localStorage.setItem('token', res.data.token)
                 window.location.href = '/'
             })
             .catch((err) => {
+                setLoader(false);
+                setErreurForm('Les identifiants ne sont pas valides.')
                 console.log(err.response.data)
                 localStorage.removeItem('token')
             })
@@ -53,6 +61,26 @@ const LoginForm = ({handleSubmit}) => {
     //TODO Add Credentials Inputs (With Input Component)
     return (
         <>
+
+            {
+                loader ?
+                <>
+                <div className="overlay">
+                    <div className="lds-dual-ring"></div>
+                </div>
+                </>
+                : ''
+            }
+
+            {
+                erreurForm ?
+                <>
+                <div className="blocErreur">
+                    <p>{erreurForm}</p>
+                </div>
+                </>
+                : ''
+            }
 
             <form id="login-form" onSubmit={handleSubmitForm}>
 
